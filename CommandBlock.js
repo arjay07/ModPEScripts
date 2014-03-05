@@ -258,7 +258,7 @@ function leaveGame() {
 
         }
 
-	fos.write(dat.toString().getBytes());
+        fos.write(dat.toString().getBytes());
         fos.flush();
         fos.close();
         cb = [];
@@ -292,7 +292,18 @@ function useItem(x, y, z, itemId, blockId, side) {
 
     if(itemId == CMD_ID) {
 
-        cb.push(new cmdBlock(x, y + 1, z));
+        var cmdb = new cmdBlock(x, y + 1, z);
+
+        if(cb.indexOf(cmdb) == -1) {
+
+            cb.push(cmdb);
+
+        } else {
+
+            cb.splice(cb.indexOf(cmdb));
+            cb.push(cmdb);
+
+        }
 
     }
 
@@ -463,14 +474,32 @@ if(!String.prototype.startsWith) {
     });
 }
 
+Array.prototype.contains = function (obj) {
+    var i = this.length;
+    while(i--) {
+        if(this[i] === obj) {
+            return true;
+        }
+    }
+    return false;
+}
+
 function procCmd(command, cx, cy, cz) {
 
     var cmd = command.split(" ");
-	
-	//Coordinates
-	if(cmd[1]!=null)var relx = cmd[1].contains("~") ? parseInt(cx) + parseInt(cmd[1].replace(rel, "")) : parseInt(cmd[1]);
+
+    //Coordinates
+    /*if(cmd[1]!=null)var relx = cmd[1].contains("~") ? parseInt(cx) + parseInt(cmd[1].replace(rel, "")) : parseInt(cmd[1]);
 	if(cmd[2]!=null)var rely = cmd[2].contains("~") ? parseInt(cx) + parseInt(cmd[2].replace(rel, "")) : parseInt(cmd[2]);
 	if(cmd[3]!=null)var relz = cmd[3].contains("~") ? parseInt(cx) + parseInt(cmd[3].replace(rel, "")) : parseInt(cmd[3])
+*/
+
+    function relInt(c, r) {
+
+        var rel = c.contains("~") ? r + parseInt(c.replace(rel, "")) : parseInt(c);
+        return rel;
+
+    }
 
     //command <required> [optional]
 
@@ -595,17 +624,17 @@ function procCmd(command, cx, cy, cz) {
             }
 
         }
-		
-		if(cmd[1] == "add"){
-		
-			Level.setTime(Level.getTime() + parseInt(cmd[2]));
-		
-		}
+
+        if(cmd[1] == "add") {
+
+            Level.setTime(Level.getTime() + parseInt(cmd[2]));
+
+        }
 
     }
 
-	//gamemode <gamemode>
-	
+    //gamemode <gamemode>
+
     if(cmd[0] == "/gamemode") {
 
         Level.setGameMode(parseInt(cmd[1]));
@@ -614,14 +643,15 @@ function procCmd(command, cx, cy, cz) {
 
     }
 
-	//testfor <testforwhat?>
-	
+    //testfor <testforwhat?>
+
     if(cmd[0] == "/testfor") {
 
         if(cmd[1].startsWith("@p")) {
 
             var params = cmd[1].substring(cmd[1].indexOf("[") + 1, cmd[1].indexOf("]"));
             var param = params.split(",");
+            var p = [];
 
             for(var i = 0; i < param.length; i++) {
 
@@ -631,19 +661,19 @@ function procCmd(command, cx, cy, cz) {
 
                     if(Entity.getHealth(Player.getEntity()) == parseInt(con[1])) {
 
-                        return true;
+                        p.push(true);
 
-                    }
+                    } else p.push(false);
 
                 }
 
                 if(con[0] == "x") {
 
-                    if(Math.round(Player.getX()) == parseInt(con[1])) {
+                    if(Math.round(Player.getX()) == relInt(con[1])) {
 
-                        return true;
+                        p.push(true);
 
-                    }
+                    } else p.push(false);
 
                 }
 
@@ -651,9 +681,9 @@ function procCmd(command, cx, cy, cz) {
 
                     if(Math.round(Player.getY()) == parseInt(con[1])) {
 
-                        return true;
+                        p.push(true);
 
-                    }
+                    } else p.push(false);
 
                 }
 
@@ -661,9 +691,9 @@ function procCmd(command, cx, cy, cz) {
 
                     if(Math.round(Player.getZ()) == parseInt(con[1])) {
 
-                        return true;
+                        p.push(true);
 
-                    }
+                    } else p.push(false);
 
                 }
 
@@ -671,9 +701,9 @@ function procCmd(command, cx, cy, cz) {
 
                     if(Level.getGameMode() == parseInt(con[1])) {
 
-                        return true;
+                        p.push(true);
 
-                    }
+                    } else p.push(false);
 
                 }
 
@@ -681,20 +711,26 @@ function procCmd(command, cx, cy, cz) {
 
                     if(Level.getTime() == parseInt(cmd[1])) {
 
-                        return true;
+                        p.push(true);
 
-                    }
+                    } else p.push(false);
 
                 }
 
             }
 
+            if(p.contains(false)) {
+
+                return false;
+
+            } else return true;
+
         }
 
     }
 
-	//testforblock <x> <y> <z> <id> [damage]
-	
+    //testforblock <x> <y> <z> <id> [damage]
+
     if(cmd[0] == "/testforblock") {
 
         var x = cmd[1];
@@ -710,16 +746,16 @@ function procCmd(command, cx, cy, cz) {
 
     }
 
-	//kill [killwhat?]
-	
+    //kill [killwhat?]
+
     if(cmd[0] == "/kill") {
 
-		if(cmd[0] == ""){
-		
-			Player.setHealth(0);
-		
-		}
-	
+        if(cmd[0] == "") {
+
+            Player.setHealth(0);
+
+        }
+
         if(cmd[1] == "@p") {
 
             Entity.setHealth(Player.getEntity, 0);
@@ -746,8 +782,8 @@ function procCmd(command, cx, cy, cz) {
 
     }
 
-	//drop <x> <y> <z> <id> [amount] [damage]
-	
+    //drop <x> <y> <z> <id> [amount] [damage]
+
     if(cmd[0] == "/drop") {
 
         Level.dropItem(cmd[1].contains("~") ? cx + parseInt(cmd[1].replace("~", "")) : parseInt(cmd[1]), cmd[2].contains("~") ? cy + parseInt(cmd[2].replace("~", "")) : parseInt(cmd[2]), cmd[3].contains("~") ? cz + parseInt(cmd[3].replace("~", "")) : parseInt(cmd[3]), cmd[6] != null ? parseInt(cmd[6]) : 0, parseInt(cmd[4]), cmd[5] != null ? parseInt(cmd[5]) : 1);
@@ -756,8 +792,8 @@ function procCmd(command, cx, cy, cz) {
 
     }
 
-	//summon <x> <y> <z> <ent id> [skin]
-	
+    //summon <x> <y> <z> <ent id> [skin]
+
     if(cmd[0] == "/summon") {
 
         Level.spawnMob(cmd[1].contains("~") ? cx + parseInt(cmd[1].replace("~", "")) : parseInt(cmd[1]), cmd[2].contains("~") ? cy + parseInt(cmd[2].replace("~", "")) : parseInt(cmd[2]), cmd[3].contains("~") ? cz + parseInt(cmd[3].replace("~", "")) : parseInt(cmd[3]), parseInt(cmd[4]), cmd[5] != null ? cmd[5] : null);
@@ -766,8 +802,8 @@ function procCmd(command, cx, cy, cz) {
 
     }
 
-	//fill <x> <y> <z> <id> [damage]
-	
+    //fill <x> <y> <z> <id> [damage]
+
     if(cmd[0] == "/fill") {
 
         var CURR_B = Level.getTile(parseInt(cmd[1]), parseInt(cmd[2]), parseInt(cmd[3]));
@@ -778,34 +814,54 @@ function procCmd(command, cx, cy, cz) {
 
     }
 
-	//playsound <x> <y> <z> <sound> [volume] [pitch]
-	
+    //playsound <x> <y> <z> <sound> [volume] [pitch]
+
     if(cmd[0] == "/playsound") {
 
-        Level.playSound(cmd[1].contains("~") ? parseInt(cx) + parseInt(cmd[1].replace(rel, "")) : parseInt(cmd[1]), cmd[2].contains("~") ? parseInt(cy) + parseInt(cmd[2].replace(rel, "")) : parseInt(cmd[2]), cmd[3].contains("~") ? parseInt(cz) + parseInt(cmd[3].replace(rel, "")) : parseInt(cmd[3]), cmd[4], cmd[5] != null ? parseInt(cmd[5]) : 100, cmd[6] != null ? parseInt(cmd[6]) : 100);
+        Level.playSound(relInt(cmd[1], cx), relInt(cmd[2], cy), relInt(cmd[3], cz), cmd[4], cmd[5] != null ? parseInt(cmd[5]) : 100, cmd[6] != null ? parseInt(cmd[6]) : 100);
 
         return true;
 
     }
 
-	//setworldspawn <x> <y> <z>
-	
-	if(cmd[0] == "/setworldspawn"){
-	
-		Level.setSpawn(relx, rely, relz);
-		return true;
-	
-	}
-	
-	//clear <item> <damage> <maxAmount>
-	
-	if(cmd[0] == "/clear"){
-	
-		Player.addItemInventory(parseInt(cmd[1]), 0-parseInt(cmd[3]), parseInt[2]);
-		return true;
-	
-	}
-	
+    //setworldspawn <x> <y> <z>
+
+    if(cmd[0] == "/setworldspawn") {
+
+        Level.setSpawn(relInt(cmd[1], cx), relInt(cmd[2], cy), relInt(cmd[3], cz));
+        return true;
+
+    }
+
+    //clear <item> <damage> <maxAmount>
+
+    if(cmd[0] == "/clear") {
+
+        Player.addItemInventory(parseInt(cmd[1]), 0 - parseInt(cmd[3]), parseInt[2]);
+        return true;
+
+    }
+
+    if(cmd[0] == "/health") {
+
+        if(cmd[1]=="add"){
+		
+			if(Entity.getHealth(Player.getEntity()) < 20){
+			
+				Player.setHealth(Entity.getHealth(Player.getEntity()) + parseInt(cmd[2]));
+			
+			}
+			
+		}
+			
+		if(cmd[1] == "set"){
+		
+			Player.setHealth(parseInt(cmd[2]));
+		
+		}
+
+    }
+
 }
 
 function entityAddedHook(ent) {
