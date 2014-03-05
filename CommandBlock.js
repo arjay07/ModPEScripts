@@ -242,6 +242,7 @@ ModPE.addCraftRecipe(264, 64, 0, [3, 0]);
 function leaveGame() {
 
     var fos = new java.io.FileOutputStream(CB_FILE);
+    var dat = new java.lang.StringBuilder();
 
     try {
 
@@ -253,10 +254,11 @@ function leaveGame() {
             var command = cb[i].cmd;
             var data = x + "~" + y + "~" + z + ":" + command;
 
-            fos.write(new java.lang.String(data + "\n").getBytes());
+            dat.append(new java.lang.String(data + "\n"));
 
         }
 
+	fos.write(dat.toString().getBytes());
         fos.flush();
         fos.close();
         cb = [];
