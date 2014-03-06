@@ -14,6 +14,7 @@ var health = "h";
 
 //Directories
 var CB_FILE;
+var L_FILE;
 var SDCARD = android.os.Environment.getExternalStorageDirectory();
 var WORLDS = new java.io.File(SDCARD, "games/com.mojang/minecraftWorlds");
 
@@ -84,6 +85,39 @@ function cmdBlock(x, y, z) {
         this.powered = powered;
 
     }
+
+}
+
+function loopBlock(x, y, z){
+
+	this.x = x;
+	this.y = y;
+	this.z = z;
+	this.time = 1;
+	
+	this.getX = function(){
+	
+		return this.x;
+	
+	}
+	
+	this.getY = function(){
+	
+		return this.y;
+	
+	}
+	
+	this.getZ = function(){
+	
+		return this.z;
+	
+	}
+	
+	this.setTime = function(i){
+	
+		this.time = i;
+	
+	}
 
 }
 
@@ -186,6 +220,61 @@ function openCmdMenu(x, y, z) {
 
 }
 
+function openLoopMenu(x, y, z){
+
+	var ctx = com.mojang.minecraftpe.MainActivity.currentMainActivity.get();
+
+    ctx.runOnUiThread(new java.lang.Runnable() {
+
+        run: function () {
+
+            try {
+
+                var b = new android.app.AlertDialog.Builder(ctx);
+                var cmd_box = new android.widget.EditText(ctx);
+                cmd_box.setHint("How Many Ticks?");
+                b.setTitle("Loop Block")
+                    .setView(cmd_box)
+                    .setMessage("Unit Key:\n20 ticks - 1 second\n1200 ticks - 1 minute")
+                    .setPositiveButton("Done", new android.content.DialogInterface.OnClickListener() {
+
+                        onClick: function (di, v) {
+
+                            getCmdBlock(x, y, z).setCommand("" + cmd_box.getText());
+                            Level.playSound(x, y, z, "random.click", 100, 100);
+                            di.dismiss();
+
+                        }
+
+                    });
+
+                cmd_box.setText(getCmdBlock(x, y, z).cmd);
+                var a = b.create();
+
+                a.setOnDismissListener(new android.content.DialogInterface.OnDismissListener() {
+
+                    onDismiss: function () {
+
+                        cmdMessage("Loop set: " + getCmdBlock(x, y, z).cmd);
+
+                    }
+
+                });
+
+                a.show();
+
+            } catch(e) {
+
+                print(e);
+
+            }
+
+        }
+
+    });
+
+}
+
 function getRandomEnt() {
 
     var i = Math.floor((Math.random() * ents.length) + 0);
@@ -220,6 +309,7 @@ ModPE.addCraftRecipe(264, 64, 0, [3, 0]);
 
     var dat = readFile(CB_FILE);
     var CB = dat.split("\n");
+	cb = [];
 
     for(var i = 0; i < CB.length; i++) {
 
@@ -898,11 +988,11 @@ function modTick() {
 
         var c = cb[i];
 
-        if(nearLooper(c.getX(), c.getY(), c.getZ())) {
+        if(nearLooper(c.getX(), c.getY(), c.getZ()) && !c.looping) {
 
             c.setLooping(true);
 
-        } else {
+        } else if(!nearLooper(c.getX(), c.getY(), c.getZ()) && c.looping){
 
             c.setLooping(false);
 
