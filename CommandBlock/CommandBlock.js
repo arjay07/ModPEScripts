@@ -1019,7 +1019,7 @@ function procCmd(command, cx, cy, cz) {
 	if(command.startsWith("{")){
 	
 		var code = command.substring(command.indexOf("{") + 1, command.indexOf("}"));
-		var line = code.spilt(",");
+		var line = code.split(",");
 		
 		for(var i = 0; i < line.length; i++){
 		
