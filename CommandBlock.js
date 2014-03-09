@@ -831,7 +831,9 @@ function procCmd(command, cx, cy, cz) {
 
             } else return true;
 
-    }
+		}
+		
+	}
 
     //testforblock <x> <y> <z> <id> [damage]
 
