@@ -578,12 +578,6 @@ function procCmd(command, cx, cy, cz) {
 
     var cmd = command.split(" ");
 
-    //Coordinates
-    /*if(cmd[1]!=null)var relx = cmd[1].contains("~") ? parseInt(cx) + parseInt(cmd[1].replace(rel, "")) : parseInt(cmd[1]);
-	if(cmd[2]!=null)var rely = cmd[2].contains("~") ? parseInt(cx) + parseInt(cmd[2].replace(rel, "")) : parseInt(cmd[2]);
-	if(cmd[3]!=null)var relz = cmd[3].contains("~") ? parseInt(cx) + parseInt(cmd[3].replace(rel, "")) : parseInt(cmd[3])
-*/
-
     function relInt(c, r) {
 
         var rel = c.contains("~") ? r + parseInt(c.replace(rel, "")) : parseInt(c);
@@ -744,7 +738,6 @@ function procCmd(command, cx, cy, cz) {
             var p = [];
 			
 			//Player arguments
-			var t = Level.getTime();
 			var i = Player.getCarriedItem();
 			var h = Entity.getHealth(Player.getEntity());
 			var x = Math.round(Player.getX());
@@ -757,6 +750,57 @@ function procCmd(command, cx, cy, cz) {
 			var rx = Math.max(Player.getX(), cx) - Math.min(Player.getX(), cx);
 			var ry = Math.max(Player.getY(), cy) - Math.min(Player.getY(), cy);
 			var rz = Math.max(Player.getZ(), cz) - Math.min(Player.getZ(), cz);
+			var name = Player.getName();
+
+            for(var a = 0; a < param.length; a++) {
+
+				var con = "0==1";
+			
+				try{
+			
+					con = eval(param[a]);
+			
+				} catch(e){
+				
+					cmdMessage(ChatColor.RED + "Syntax Error!");
+					print(e);
+				
+				}
+			
+                if(eval(param[a]))p.push(true);
+				else p.push(false);
+
+            }
+
+            if(p.contains(false)) {
+
+                return false;
+
+            } else return true;
+
+		}
+		
+		if(cmd[1].startsWith("@a")) {
+
+            for(var a = 0; a < ents.length; a++){
+			
+			var e = ents[a];
+			
+			var params = cmd[1].substring(cmd[1].indexOf("[") + 1, cmd[1].indexOf("]"));
+            var param = params.split(",");
+            var p = [];
+			
+			//Entity arguments
+			var i = Entity.getCarriedItem(e);
+			var h = Entity.getHealth(Entity.getEntity());
+			var x = Math.round(Entity.getX(e));
+			var y = Math.round(Entity.getY(e));
+			var z = Math.round(Entity.getZ(e));
+			var i = Entity.getCarriedItem(e);
+			var rx = Math.max(Entity.getX(e), cx) - Math.min(Entity.getX(e), cx);
+			var ry = Math.max(Entity.getY(e), cy) - Math.min(Entity.getY(e), cy);
+			var rz = Math.max(Entity.getZ(e), cz) - Math.min(Entity.getZ(e), cz);
+			var type = Entity.getEntityTypeId(e);
 
             for(var i = 0; i < param.length; i++) {
 
@@ -766,7 +810,7 @@ function procCmd(command, cx, cy, cz) {
 			
 					con = eval(param[i]);
 			
-				) catch(e){
+				} catch(e){
 				
 					cmdMessage(ChatColor.RED + "Syntax Error!");
 					print(e);
@@ -783,6 +827,8 @@ function procCmd(command, cx, cy, cz) {
                 return false;
 
             } else return true;
+			
+			}
 
 		}
 		
@@ -883,9 +929,9 @@ function procCmd(command, cx, cy, cz) {
 
     }
 
-    //setworldspawn <x> <y> <z>
+    //setspawn <x> <y> <z>
 
-    if(cmd[0] == "/setworldspawn") {
+    if(cmd[0] == "/setspawn") {
 
         Level.setSpawn(relInt(cmd[1], cx), relInt(cmd[2], cy), relInt(cmd[3], cz));
         return true;
@@ -901,6 +947,8 @@ function procCmd(command, cx, cy, cz) {
 
     }
 
+	//health <mode> <amount>
+	
     if(cmd[0] == "/health") {
 
         if(cmd[1]=="add"){
