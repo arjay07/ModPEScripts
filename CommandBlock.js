@@ -277,7 +277,7 @@ function openLoopMenu(x, y, z){
 
 function getRandomEnt() {
 
-    var i = Math.floor((Math.random() * ents.length) + 0);
+    var i = Math.floor((Math.random() * ents.length + 1));
 
     return ents[i];
 
@@ -742,6 +742,8 @@ function procCmd(command, cx, cy, cz) {
             var params = cmd[1].substring(cmd[1].indexOf("[") + 1, cmd[1].indexOf("]"));
             var param = params.split(",");
             var p = [];
+			var t = Level.getTime();
+			var i = Player.getCarriedItem();
 
             for(var i = 0; i < param.length; i++) {
 
@@ -797,15 +799,29 @@ function procCmd(command, cx, cy, cz) {
 
                 }
 
-                if(con[0] == "t") {
-
-                    if(Level.getTime() == parseInt(cmd[1])) {
-
-                        p.push(true);
-
-                    } else p.push(false);
-
-                }
+                if(eval(param[i]))p.push(true);
+				else p.push(false);
+				
+				if(con[0] == "i"){
+				
+					if(Player.getCarriedItem() == parseInt(con[1]))p.push(true}; 
+					else p.push(false);
+				
+				}
+				
+				if(con[0] == "ic"){
+				
+					if(Player.getCarriedItemCount() == parseInt(con[1]))p.push(true);
+					else p.push(false);
+				
+				}
+				
+				if(con[0] == "id"){
+				
+					if(Player.getCarriedItemData() == parseInf(con[1]))p.push(true);
+					else p.push(false);
+				
+				}
 
             }
 
@@ -814,8 +830,6 @@ function procCmd(command, cx, cy, cz) {
                 return false;
 
             } else return true;
-
-        }
 
     }
 
