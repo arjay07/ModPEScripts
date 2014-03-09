@@ -1031,11 +1031,27 @@ function procCmd(command, cx, cy, cz) {
 			
 			if(method == "createitem"){
 			
-				ModPE.setItem(parseInt(par[1]), par[3], parseInt(par[4]), par[2]);
+				ModPE.setItem(parseInt(par[0]), par[1], parseInt(par[3]), par[2]);
 			
 			}
 			
+			if(method == "langedit"){
 			
+				ModPE.langEdit(par[0], par[1]);
+			
+			}
+			
+			/*if(method == "display"){
+			
+				var TOP = android.view.Gravity.TOP;
+				var BOTTOM = android.view.Gravity.BOTTOM;
+				var LEFT = android.view.Gravity.LEFT;
+				var RIGHT = android.view.Gravity.RIGHT;
+				var CENTER = android.view.Gravity.CENTER;
+				
+				displayText(eval(par[0]), );
+			
+			}*/
 		
 		}
 	
