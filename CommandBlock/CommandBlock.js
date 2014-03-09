@@ -875,8 +875,6 @@ function procCmd(command, cx, cy, cz) {
                 return false;
 
             } else return true;
-			
-			}
 		
 		}
 		
