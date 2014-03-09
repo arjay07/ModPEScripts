@@ -791,8 +791,7 @@ function procCmd(command, cx, cy, cz) {
             var p = [];
 			
 			//Entity arguments
-			var i = Entity.getCarriedItem(e);
-			var h = Entity.getHealth(Entity.getEntity());
+			var h = Entity.getHealth(e);
 			var x = Math.round(Entity.getX(e));
 			var y = Math.round(Entity.getY(e));
 			var z = Math.round(Entity.getZ(e));
@@ -830,6 +829,55 @@ function procCmd(command, cx, cy, cz) {
 			
 			}
 
+		}
+		
+		if(cmd[1].startsWith("@r")){
+		
+			var e = getRandoment();
+						
+			var params = cmd[1].substring(cmd[1].indexOf("[") + 1, cmd[1].indexOf("]"));
+            var param = params.split(",");
+            var p = [];
+			
+			//Entity arguments
+			var h = Entity.getHealth(e);
+			var x = Math.round(Entity.getX(e));
+			var y = Math.round(Entity.getY(e));
+			var z = Math.round(Entity.getZ(e));
+			var i = Entity.getCarriedItem(e);
+			var rx = Math.max(Entity.getX(e), cx) - Math.min(Entity.getX(e), cx);
+			var ry = Math.max(Entity.getY(e), cy) - Math.min(Entity.getY(e), cy);
+			var rz = Math.max(Entity.getZ(e), cz) - Math.min(Entity.getZ(e), cz);
+			var type = Entity.getEntityTypeId(e);
+
+            for(var i = 0; i < param.length; i++) {
+
+				var con = "0==1";
+			
+				try{
+			
+					con = eval(param[i]);
+			
+				} catch(e){
+				
+					cmdMessage(ChatColor.RED + "Syntax Error!");
+					print(e);
+				
+				}
+			
+                if(eval(param[i]))p.push(true);
+				else p.push(false);
+
+            }
+
+            if(p.contains(false)) {
+
+                return false;
+
+            } else return true;
+			
+			}
+		
 		}
 		
 	}
