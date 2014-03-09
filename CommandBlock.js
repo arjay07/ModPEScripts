@@ -742,86 +742,39 @@ function procCmd(command, cx, cy, cz) {
             var params = cmd[1].substring(cmd[1].indexOf("[") + 1, cmd[1].indexOf("]"));
             var param = params.split(",");
             var p = [];
+			
+			//Player arguments
 			var t = Level.getTime();
 			var i = Player.getCarriedItem();
+			var h = Entity.getHealth(Player.getEntity());
+			var x = Math.round(Player.getX());
+			var y = Math.round(Player.getY());
+			var z = Math.round(Player.getZ());
+			var gm = Level.getGameMode();
+			var i = Player.getCarriedItem();
+			var ic = Player.getCarriedItemCount();
+			var id = Player.getCarriedItemData();
+			var rx = Math.max(Player.getX(), cx) - Math.min(Player.getX(), cx);
+			var ry = Math.max(Player.getY(), cy) - Math.min(Player.getY(), cy);
+			var rz = Math.max(Player.getZ(), cz) - Math.min(Player.getZ(), cz);
 
             for(var i = 0; i < param.length; i++) {
 
-                var con = param[i].split("=");
-
-                if(con[0] == health) {
-
-                    if(Entity.getHealth(Player.getEntity()) == parseInt(con[1])) {
-
-                        p.push(true);
-
-                    } else p.push(false);
-
-                }
-
-                if(con[0] == "x") {
-
-                    if(Math.round(Player.getX()) == relInt(con[1])) {
-
-                        p.push(true);
-
-                    } else p.push(false);
-
-                }
-
-                if(con[0] == "y") {
-
-                    if(Math.round(Player.getY()) == parseInt(con[1])) {
-
-                        p.push(true);
-
-                    } else p.push(false);
-
-                }
-
-                if(con[0] == "z") {
-
-                    if(Math.round(Player.getZ()) == parseInt(con[1])) {
-
-                        p.push(true);
-
-                    } else p.push(false);
-
-                }
-
-                if(con[0] == "gm") {
-
-                    if(Level.getGameMode() == parseInt(con[1])) {
-
-                        p.push(true);
-
-                    } else p.push(false);
-
-                }
-
+				var con = "0==1";
+			
+				try{
+			
+					con = eval(param[i]);
+			
+				) catch(e){
+				
+					cmdMessage(ChatColor.RED + "Syntax Error!");
+					print(e);
+				
+				}
+			
                 if(eval(param[i]))p.push(true);
 				else p.push(false);
-				
-				if(con[0] == "i"){
-				
-					if(Player.getCarriedItem() == parseInt(con[1]))p.push(true); 
-					else p.push(false);
-				
-				}
-				
-				if(con[0] == "ic"){
-				
-					if(Player.getCarriedItemCount() == parseInt(con[1]))p.push(true);
-					else p.push(false);
-				
-				}
-				
-				if(con[0] == "id"){
-				
-					if(Player.getCarriedItemData() == parseInf(con[1]))p.push(true);
-					else p.push(false);
-				
-				}
 
             }
 
