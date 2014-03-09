@@ -804,7 +804,7 @@ function procCmd(command, cx, cy, cz) {
 				
 				if(con[0] == "i"){
 				
-					if(Player.getCarriedItem() == parseInt(con[1]))p.push(true}; 
+					if(Player.getCarriedItem() == parseInt(con[1]))p.push(true); 
 					else p.push(false);
 				
 				}
