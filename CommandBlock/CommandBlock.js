@@ -1035,7 +1035,7 @@ function procCmd(command, cx, cy, cz) {
 			
 			}
 			
-			if(method 
+			
 		
 		}
 	
