@@ -1024,14 +1024,14 @@ function procCmd(command, cx, cy, cz) {
 		for(var i = 0; i < line.length; i++){
 		
 			var l = line[i];
-			var c = l.split(":");
+			var c = l.split(">");
 			var method = c[0];
 			var params = c[1];
 			var par = params.split(",");
 			
 			if(method == "createitem"){
 			
-				ModPE.setItem(parseInt(par[1]), par[2], parseInt(par[4]), par[3]);
+				ModPE.setItem(parseInt(par[1]), par[3], parseInt(par[4]), par[2]);
 			
 			}
 		
