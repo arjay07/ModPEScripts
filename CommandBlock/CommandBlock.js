@@ -1018,7 +1018,7 @@ function procCmd(command, cx, cy, cz) {
 
 	if(command.startsWith("{")){
 	
-		var code = command.substring(command.indexOf("{") + 1, command.length);
+		var code = command.substring(command.indexOf("{") + 1, command.length-1);
 		var line = code.split("|");
 		
 		for(var i = 0; i < line.length; i++){
@@ -1034,6 +1034,8 @@ function procCmd(command, cx, cy, cz) {
 				ModPE.setItem(parseInt(par[1]), par[3], parseInt(par[4]), par[2]);
 			
 			}
+			
+			if(method 
 		
 		}
 	
