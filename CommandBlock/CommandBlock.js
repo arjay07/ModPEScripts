@@ -1031,6 +1031,86 @@ function procCmd(command, cx, cy, cz) {
 
     }
 	
+	//setvely <ent> <amount>
+	
+	if(cmd[0] == "/setvely"{
+	
+		if(cmd[1] == "@p"){
+		
+			Entity.setVelY(Player.getEntity(), parseInt(cmd[2]));
+		
+		}
+		
+		if(cmd[1] == "@a"){
+		
+			for(var i = 0; i < ents.length; i++){
+			
+				Entity.setVelY(ents[i], parseInt(cmd[2]));
+			
+			}
+		
+		}
+		
+		if(cmd[1] == "@r"){
+		
+			Entity.setVelY(getRandomEnt(), parseInt(cmd[2]));
+		
+		}
+	
+	}
+	
+	if(cmd[0] == "/setvelx"{
+	
+		if(cmd[1] == "@p"){
+		
+			Entity.setVelX(Player.getEntity(), parseInt(cmd[2]));
+		
+		}
+		
+		if(cmd[1] == "@a"){
+		
+			for(var i = 0; i < ents.length; i++){
+			
+				Entity.setVelX(ents[i], parseInt(cmd[2]));
+			
+			}
+		
+		}
+		
+		if(cmd[1] == "@r"){
+		
+			Entity.setVelX(getRandomEnt(), parseInt(cmd[2]));
+		
+		}
+	
+	}
+	
+	if(cmd[0] == "/setvelz"{
+	
+		if(cmd[1] == "@p"){
+		
+			Entity.setVelZ(Player.getEntity(), parseInt(cmd[2]));
+		
+		}
+		
+		if(cmd[1] == "@a"){
+		
+			for(var i = 0; i < ents.length; i++){
+			
+				Entity.setVelZ(ents[i], parseInt(cmd[2]));
+			
+			}
+		
+		}
+		
+		if(cmd[1] == "@r"){
+		
+			Entity.setVelZ(getRandomEnt(), parseInt(cmd[2]));
+		
+		}
+	
+	}
+	
 	//Method system
 	
 	if(command.startsWith("{")){
