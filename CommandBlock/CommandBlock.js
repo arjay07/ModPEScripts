@@ -1033,7 +1033,7 @@ function procCmd(command, cx, cy, cz) {
 	
 	//setvely <ent> <amount>
 	
-	if(cmd[0] == "/setvely"{
+	if(cmd[0] == "/setvely"){
 	
 		if(cmd[1] == "@p"){
 		
@@ -1059,7 +1059,7 @@ function procCmd(command, cx, cy, cz) {
 	
 	}
 	
-	if(cmd[0] == "/setvelx"{
+	if(cmd[0] == "/setvelx"){
 	
 		if(cmd[1] == "@p"){
 		
@@ -1085,7 +1085,7 @@ function procCmd(command, cx, cy, cz) {
 	
 	}
 	
-	if(cmd[0] == "/setvelz"{
+	if(cmd[0] == "/setvelz"){
 	
 		if(cmd[1] == "@p"){
 		
