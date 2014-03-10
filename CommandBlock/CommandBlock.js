@@ -1,5 +1,7 @@
-var CMD_ID = 137;
-var LOOP_ID = 180;
+var CMD_ID = 137; //Command Block
+var LOOP_ID = 180; //Loop Block
+var START_ID = 181; //Start of World Block
+var COMP_ID = 182; //Comparator Block
 var init = false;
 var cb = [];
 var lb = [];
@@ -144,7 +146,7 @@ function cmdMessage(message) {
 
 function pnMessage(message) {
 
-    clientMessage(ChatColor.GREY + "[@]" + message);
+    clientMessage(ChatColor.GRAY + "[@]" + message);
 
 }
 
@@ -364,15 +366,16 @@ function leaveGame() {
         }
 
         fos.write(dat.toString().getBytes());
-        fos.flush();
-        fos.close();
-        cb = [];
 
     } catch(e) {
 
         print(e);
 
     }
+	
+	fos.flush();
+    fos.close();
+    cb = [];
 
 }
 
@@ -401,12 +404,12 @@ function useItem(x, y, z, itemId, blockId, side) {
 
         if(cb.indexOf(cmdb) == -1) {
 
-            cb.push(cmdb);
+            if(Level.getTile(x, y + 1, z) == CMD_ID)cb.push(cmdb);
 
         } else {
 
             cb.splice(cb.indexOf(cmdb));
-            cb.push(cmdb);
+            if(Level.getTile(x, y + 1, z) == CMD_ID)cb.push(cmdb);
 
         }
 
@@ -416,7 +419,17 @@ function useItem(x, y, z, itemId, blockId, side) {
 
         preventDefault();
         Level.playSound(x, y, z, "random.click", 100, 100);
-        openCmdMenu(x, y, z);
+		
+		try{
+		
+			openCmdMenu(x, y, z);
+			
+		}catch(e){
+		
+			print(e);
+			clientMessage(ChatColor.RED + This command block does not exist!);
+		
+		}
 
     }
 
@@ -602,6 +615,13 @@ function procCmd(command, cx, cy, cz) {
 
     //command <required> [optional]
 	
+	if(cmd[0] == "help"){
+	
+		var message = ChatColor.DARK_GRAY + "Command Block Mod\n" + ChatColor.GREEN + "Created by Arjay07\n" + ChatColor.BLUE + "Command Block - " + ChatColor.WHITE + "137\n" + "Loop Block - " + ChatColor.WHITE + "180";
+		clientMessage(message);
+	
+	}
+	
     //say <message>
 
     if(cmd[0] == "/say") {
@@ -627,7 +647,8 @@ function procCmd(command, cx, cy, cz) {
 
         if(cmd[1] == player) {
 
-            Player.addItemInventory(cmd[2], cmd[3] != null ? cmd[3] : 1, cmd[4] != null ? cmd[4] : 0);
+            Player.addItemInventory(cmd[2], cmd[3] != null ? parseInt(cmd[3]) : 1, cmd[4] != null ? cmd[4] : 0);
+			pnMessage("Gave " + Player.getName(Player.getEntity()) + " " + cmd[3] + " of " + cmd[2]);
 
             return true;
 
@@ -643,13 +664,13 @@ function procCmd(command, cx, cy, cz) {
 
         if(Level.getTile(cmd[1].contains("~") ? parseInt(cx) + parseInt(cmd[1].replace(rel, "")) : parseInt(cmd[1]), cmd[2].contains("~") ? parseInt(cy) + parseInt(cmd[2].replace(rel, "")) : parseInt(cmd[2]), cmd[3].contains("~") ? parseInt(cz) + parseInt(cmd[3].replace(rel, "")) : parseInt(cmd[3])) == parseInt(cmd[4])) {
 
-            cmdMessage("Block is set");
+            pnMessage("Block is set");
 
             return true;
 
         } else {
 
-            cmdMessage("Block is not set");
+            pnMessage("Block is not set");
 
         }
 
@@ -666,6 +687,8 @@ function procCmd(command, cx, cy, cz) {
 
             Entity.setPosition(Player.getEntity(), cmd[2].contains(rel) ? cx + parseInt(cmd[2].replace(rel, "")) : parseInt(cmd[2]), cmd[3].contains(rel) ? cy + parseInt(cmd[3].replace(rel, "")) : parseInt(cmd[3]), cmd[4].contains(rel) ? cz + parseInt(cmd[4].replace(rel, "")) : parseInt(cmd[4]));
 
+			pnMessage("Player teleported to x:" Player.getX() + " y:" + Player.getY() + " z:" + Player.getZ());
+			
             return true;
 
         }
@@ -674,23 +697,31 @@ function procCmd(command, cx, cy, cz) {
 
             var ent = getRandomEnt();
 
-            Entity.setPosition(ent, cmd[2].contains("~") ? Entity.getX(ent) + parseInt(cmd[2].replace(rel, "")) : parseInt(cmd[2]), cmd[3].contains(rel) ? Entity.getY(ent) + parseInt(cmd[3].replace(rel, "")) : parseInt(cmd[3]), cmd[4].contains(rel) ? Entity.getZ(ent) + parseInt(cmd[4].replace(rel, "")) : parseInt(cmd[4]));
+            Entity.setPosition(ent, cmd[2].contains("~") ? cx + parseInt(cmd[2].replace(rel, "")) : parseInt(cmd[2]), cmd[3].contains(rel) ? cy + parseInt(cmd[3].replace(rel, "")) : parseInt(cmd[3]), cmd[4].contains(rel) ? cz + parseInt(cmd[4].replace(rel, "")) : parseInt(cmd[4]));
 
+			pnMessage("Random entity teleported to x:" + Entity.getX(ent) + " y:" + Entity.getY(ent) + " z:" + Entity.getZ(ent));
+			
             return true;
 
         }
 
         if(cmd[1] == all) {
+		
+			var amt = 0;
 
             for(var i = 0; i < ents.length; i++) {
 
                 var ent = ents[i];
 
-                Entity.setPosition(ent, cmd[2].contains("~") ? Entity.getX(ent) + parseInt(cmd[2].replace(rel, "")) : parseInt(cmd[2]), cmd[3].contains(rel) ? Entity.getY(ent) + parseInt(cmd[3].replace(rel, "")) : parseInt(cmd[3]), cmd[4].contains(rel) ? Entity.getZ(ent) + parseInt(cmd[4].replace(rel, "")) : parseInt(cmd[4]));
+                Entity.setPosition(ent, cmd[2].contains("~") ? cx + parseInt(cmd[2].replace(rel, "")) : parseInt(cmd[2]), cmd[3].contains(rel) ? cy + parseInt(cmd[3].replace(rel, "")) : parseInt(cmd[3]), cmd[4].contains(rel) ? cz + parseInt(cmd[4].replace(rel, "")) : parseInt(cmd[4]));
 
-                return true;
+				amt++;
 
             }
+			
+			pnMessage(amt + " entitites teleported to x:" + cmd[2].contains("~") ? cx + parseInt(cmd[2].replace(rel, "")) : parseInt(cmd[2]) + " y:" + cmd[3].contains(rel) ? cy + parseInt(cmd[3].replace(rel, "")) : parseInt(cmd[3]) + " z:" + cmd[4].contains(rel) ? cz + parseInt(cmd[4].replace(rel, "")) : parseInt(cmd[4]));
+				
+            return true;
 
         }
 
@@ -729,14 +760,21 @@ function procCmd(command, cx, cy, cz) {
             Level.setTime(Level.getTime() + parseInt(cmd[2]));
 
         }
+		
+		pnMessage("Time is set to " + Level.getTime());
 
     }
 
     //gamemode <gamemode>
 
     if(cmd[0] == "/gamemode") {
+	
+		var survival = 0;
+		var creative = 1;
 
-        Level.setGameMode(parseInt(cmd[1]));
+        Level.setGameMode(eval(cmd[1]));
+		
+		pnMessage("Gamemode set to " + cmd[1] == 1?"Creative":"Survival");
 
         return true;
 
@@ -954,7 +992,7 @@ function procCmd(command, cx, cy, cz) {
     if(cmd[0] == "/drop") {
 
         Level.dropItem(cmd[1].contains("~") ? cx + parseInt(cmd[1].replace("~", "")) : parseInt(cmd[1]), cmd[2].contains("~") ? cy + parseInt(cmd[2].replace("~", "")) : parseInt(cmd[2]), cmd[3].contains("~") ? cz + parseInt(cmd[3].replace("~", "")) : parseInt(cmd[3]), cmd[6] != null ? parseInt(cmd[6]) : 0, parseInt(cmd[4]), cmd[5] != null ? parseInt(cmd[5]) : 1);
-
+		
         return true;
 
     }
