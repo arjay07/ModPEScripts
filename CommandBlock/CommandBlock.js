@@ -306,21 +306,6 @@ ModPE.addCraftRecipe(264, 64, 0, [3, 0]);
         CB_FILE.createNewFile();
 
     }
-	
-	var fos = new java.io.FileOutputStream(CB_FILE);
-	
-	try{
-	
-		fos.write("");
-	
-	}catch(e){
-	
-		print(e);
-	
-	}
-	
-	fos.flush();
-	fos.close();
 
     var dat = readFile(CB_FILE);
     var CB = dat.split("\n");
@@ -341,6 +326,21 @@ ModPE.addCraftRecipe(264, 64, 0, [3, 0]);
         cb.push(commandblock);
 
     }
+	
+	var fos = new java.io.FileOutputStream(CB_FILE);
+	
+	try{
+	
+		fos.write("");
+	
+	}catch(e){
+	
+		print(e);
+	
+	}
+	
+	fos.flush();
+	fos.close();
 
 }
 
