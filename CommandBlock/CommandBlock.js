@@ -306,6 +306,21 @@ ModPE.addCraftRecipe(264, 64, 0, [3, 0]);
         CB_FILE.createNewFile();
 
     }
+	
+	var fos = new java.io.FileOutputStream(CB_FILE);
+	
+	try{
+	
+		fos.write("");
+	
+	}catch(e){
+	
+		print(e);
+	
+	}
+	
+	fos.flush();
+	fos.close();
 
     var dat = readFile(CB_FILE);
     var CB = dat.split("\n");
@@ -586,7 +601,7 @@ function procCmd(command, cx, cy, cz) {
     }
 
     //command <required> [optional]
-
+	
     //say <message>
 
     if(cmd[0] == "/say") {
@@ -1015,11 +1030,13 @@ function procCmd(command, cx, cy, cz) {
 		}
 
     }
-
+	
+	//Method system
+	
 	if(command.startsWith("{")){
 	
 		var code = command.substring(command.indexOf("{") + 1, command.length-1);
-		var line = code.split("|");
+		var line = code.split(";");
 		
 		for(var i = 0; i < line.length; i++){
 		
@@ -1031,7 +1048,7 @@ function procCmd(command, cx, cy, cz) {
 			
 			if(method == "createitem"){
 			
-				ModPE.setItem(parseInt(par[0]), par[1], parseInt(par[3]), par[2]);
+				ModPE.setItem(parseInt(par[0]), par[2], parseInt(par[3]), par[1]);
 			
 			}
 			
@@ -1052,7 +1069,7 @@ function procCmd(command, cx, cy, cz) {
 				displayText(eval(par[0]), );
 			
 			}*/
-		
+			
 		}
 	
 	}
