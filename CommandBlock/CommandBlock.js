@@ -947,7 +947,7 @@ function procCmd(command, cx, cy, cz) {
         var id = cmd[4];
 		var dmg = cmd[5];
 
-        if(Level.getTile(relInt(x, cx), relInt(y, cy), relInt(z, cz)) == id && Level.getData(relInt(x, cx), relInt(y, cy), relInt(z, cz)) == cmd[5]!=null?parseInt(cmd[5]):0)return true;
+        if(Level.getTile(cmd[1].contains("~") ? cx + parseInt(cmd[1].replace("~", "")) : parseInt(cmd[1]), cmd[2].contains("~") ? cy + parseInt(cmd[2].replace("~", "")) : parseInt(cmd[2]), cmd[3].contains("~") ? cz + parseInt(cmd[3].replace("~", "")) : parseInt(cmd[3])) == id && Level.getData(cmd[1].contains("~") ? cx + parseInt(cmd[1].replace("~", "")) : parseInt(cmd[1]), cmd[2].contains("~") ? cy + parseInt(cmd[2].replace("~", "")) : parseInt(cmd[2]), cmd[3].contains("~") ? cz + parseInt(cmd[3].replace("~", "")) : parseInt(cmd[3])) == cmd[5]!=null?parseInt(cmd[5]):0)return true;
 
     }
 
@@ -1146,6 +1146,21 @@ function procCmd(command, cx, cy, cz) {
 			Entity.setVelZ(getRandomEnt(), parseInt(cmd[2]));
 		
 		}
+	
+	}
+	
+	if(cmd[0] == "/eval"){
+	
+		var code = new java.lang.StringBuilder();
+
+        for(var i = 1; i < cmd.length; i++) {
+
+            msgdat.append(cmd[i]);
+            msgdat.append(" ");
+
+        }
+		
+		eval(code.toString());
 	
 	}
 	
