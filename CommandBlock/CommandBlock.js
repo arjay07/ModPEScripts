@@ -20,6 +20,11 @@ var L_FILE;
 var SDCARD = android.os.Environment.getExternalStorageDirectory();
 var WORLDS = new java.io.File(SDCARD, "games/com.mojang/minecraftWorlds");
 
+//Variables by Dzaima
+var xs = new Array(0,0,0,0,-1,1);
+var ys = new Array(-1,1,0,0,0,0);
+var zs = new Array(0,0,-1,1,0,0);
+
 function initMod() {
 
     //Command Block
@@ -30,8 +35,6 @@ function initMod() {
     Block.defineBlock(LOOP_ID, "Loop Block", ["enchanting_table_top", 0], 1, false, 0);
     Block.setDestroyTime(LOOP_ID, 0.3);
     Block.setShape(LOOP_ID, 0, 0, 0, 1, 1, 1);
-    var color = [0xB40700];
-    //Block.setColor(LOOP_ID, color);
     Block.setExplosionResistance(LOOP_ID, 18, 000, 000);
 
 }
@@ -287,7 +290,7 @@ function getRandomEnt() {
 
 function newLevel() {
 
-    CB_FILE = new java.io.File(WORLDS + "/" + Level.getWorldDir(), "command_blocks.txt");
+    CB_FILE = new java.io.File(WORLDS + "/" + Level.getWorldDir() + "/CommandBlock", "command_blocks.txt");
 
     if(!init) {
 
@@ -305,6 +308,7 @@ ModPE.addCraftRecipe(264, 64, 0, [3, 0]);
 
     if(!CB_FILE.exists()) {
 
+		CB_FILE.mkdirs();
         CB_FILE.createNewFile();
 
     }
@@ -400,7 +404,12 @@ function useItem(x, y, z, itemId, blockId, side) {
 
     if(itemId == CMD_ID) {
 
-        var cmdb = new cmdBlock(x, y + 1, z);
+	//Thanks to Dzaima for this code
+		x += xs[side];
+		y += ys[side];
+		z += zs[side];
+	
+        var cmdb = new cmdBlock(x, y, z);
 
         if(cb.indexOf(cmdb) == -1) {
 
@@ -443,20 +452,6 @@ function useItem(x, y, z, itemId, blockId, side) {
         }
 
     }
-
-    /*if(blockId == CMD_ID && itemId == 331){
-
-if(getCmdBlock(x, y, z).looping){
-
-getCmdBlock(x, y, z).setLooping(false);
-
-}else if(!getCmdBlock(x, y, z).looping){
-
-getCmdBlock(x, y, z).setLooping(true);
-
-}
-
-}*/
 
 }
 
@@ -1155,8 +1150,8 @@ function procCmd(command, cx, cy, cz) {
 
         for(var i = 1; i < cmd.length; i++) {
 
-            msgdat.append(cmd[i]);
-            msgdat.append(" ");
+            code.append(cmd[i]);
+            code.append(" ");
 
         }
 		
