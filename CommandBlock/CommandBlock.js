@@ -687,7 +687,7 @@ function procCmd(command, cx, cy, cz) {
 
             Entity.setPosition(Player.getEntity(), cmd[2].contains(rel) ? cx + parseInt(cmd[2].replace(rel, "")) : parseInt(cmd[2]), cmd[3].contains(rel) ? cy + parseInt(cmd[3].replace(rel, "")) : parseInt(cmd[3]), cmd[4].contains(rel) ? cz + parseInt(cmd[4].replace(rel, "")) : parseInt(cmd[4]));
 
-			pnMessage("Player teleported to x:" Player.getX() + " y:" + Player.getY() + " z:" + Player.getZ());
+			pnMessage("Player teleported to x:" + Player.getX() + " y:" + Player.getY() + " z:" + Player.getZ());
 			
             return true;
 
