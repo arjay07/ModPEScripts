@@ -947,7 +947,7 @@ function procCmd(command, cx, cy, cz) {
         var id = cmd[4];
 		var dmg = cmd[5];
 
-        if(Level.getTile(x, y, z) == id && Level.getData(x, y, z))return true;
+        if(Level.getTile(relInt(x, cx), relInt(y, cy), relInt(z, cz)) == id && Level.getData(relInt(x, cx), relInt(y, cy), relInt(z, cz)) == cmd[5]!=null?parseInt(cmd[5]):0)return true;
 
     }
 
@@ -1173,6 +1173,27 @@ function procCmd(command, cx, cy, cz) {
 			if(method == "langedit"){
 			
 				ModPE.langEdit(par[0], par[1]);
+			
+			}
+			
+			if(method == "modblock"){
+			
+				var id = parseInt(par[0]);
+				var lightlevel = 0;
+				var destroytime = 0;
+				var color = 0;
+				var renderlayer = 0;
+				
+				for(var i = 0; i < par.length; i++){
+				
+					eval(par[i]);
+				
+				}
+			
+				Block.setLightLevel(id, lightlevel);
+				Block.setDestroyTime(id, destroytime);
+				Block.setColor(id, [color]);
+				Block.setRenderLayer(id, renderlayer);
 			
 			}
 			
