@@ -404,12 +404,12 @@ function useItem(x, y, z, itemId, blockId, side) {
 
         if(cb.indexOf(cmdb) == -1) {
 
-            if(Level.getTile(x, y + 1, z) == CMD_ID)cb.push(cmdb);
+            cb.push(cmdb);
 
         } else {
 
             cb.splice(cb.indexOf(cmdb));
-            if(Level.getTile(x, y + 1, z) == CMD_ID)cb.push(cmdb);
+            cb.push(cmdb);
 
         }
 
