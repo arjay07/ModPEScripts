@@ -427,7 +427,7 @@ function useItem(x, y, z, itemId, blockId, side) {
 		}catch(e){
 		
 			print(e);
-			clientMessage(ChatColor.RED + This command block does not exist!);
+			clientMessage(ChatColor.RED + "This command block does not exist!");
 		
 		}
 
