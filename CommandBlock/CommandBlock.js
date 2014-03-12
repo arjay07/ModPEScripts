@@ -226,61 +226,6 @@ function openCmdMenu(x, y, z) {
 
 }
 
-function openLoopMenu(x, y, z){
-
-	var ctx = com.mojang.minecraftpe.MainActivity.currentMainActivity.get();
-
-    ctx.runOnUiThread(new java.lang.Runnable() {
-
-        run: function () {
-
-            try {
-
-                var b = new android.app.AlertDialog.Builder(ctx);
-                var cmd_box = new android.widget.EditText(ctx);
-                cmd_box.setHint("How Many Ticks?");
-                b.setTitle("Loop Block")
-                    .setView(cmd_box)
-                    .setMessage("Unit Key:\n20 ticks - 1 second\n1200 ticks - 1 minute")
-                    .setPositiveButton("Done", new android.content.DialogInterface.OnClickListener() {
-
-                        onClick: function (di, v) {
-
-                            getCmdBlock(x, y, z).setCommand("" + cmd_box.getText());
-                            Level.playSound(x, y, z, "random.click", 100, 100);
-                            di.dismiss();
-
-                        }
-
-                    });
-
-                cmd_box.setText(getCmdBlock(x, y, z).cmd);
-                var a = b.create();
-
-                a.setOnDismissListener(new android.content.DialogInterface.OnDismissListener() {
-
-                    onDismiss: function () {
-
-                        cmdMessage("Loop set: " + getCmdBlock(x, y, z).cmd);
-
-                    }
-
-                });
-
-                a.show();
-
-            } catch(e) {
-
-                print(e);
-
-            }
-
-        }
-
-    });
-
-}
-
 function getRandomEnt() {
 
     var i = Math.floor((Math.random() * ents.length + 1));
@@ -354,11 +299,11 @@ function newLevel() {
 
         var c = cb[i];
 
-        if(nearLooper(c.getX(), c.getY(), c.getZ()) && !c.looping && startloopers) {
+        if(nearLooper(c.getX(), c.getY(), c.getZ())) {
 
             c.setLooping(true);
 
-        } else if(!nearLooper(c.getX(), c.getY(), c.getZ()) && c.looping){
+        } else if(!nearLooper(c.getX(), c.getY(), c.getZ())){
 
             c.setLooping(false);
 
@@ -658,6 +603,9 @@ function procCmd(command, cx, cy, cz) {
             msgdat.append(" ");
 
         }
+		
+		var msg = msgdat.toString()
+			.replace("@p", Player.getName(Player.getEntity()));
 
         cmdMessage(msgdat.toString());
 
@@ -1074,20 +1022,60 @@ function procCmd(command, cx, cy, cz) {
 	//health <mode> <amount>
 	
     if(cmd[0] == "/health") {
+	
+		if(cmd[1] == "@p"){
 
-        if(cmd[1]=="add"){
+			if(cmd[2]=="add"){
 		
-			if(Entity.getHealth(Player.getEntity()) < 20){
-			
 				Player.setHealth(Entity.getHealth(Player.getEntity()) + parseInt(cmd[2]));
 			
 			}
 			
-		}
-			
-		if(cmd[1] == "set"){
+			if(cmd[2] == "set"){
 		
-			Player.setHealth(parseInt(cmd[2]));
+				Player.setHealth(parseInt(cmd[2]));
+		
+			}
+		
+		}
+		
+		if(cmd[1] == "@r"){
+		
+			var e = getRandomEnt();
+
+			if(cmd[2]=="add"){
+		
+				Entity.setHealth(e, Entity.getHealth(e) + parseInt(cmd[2]));
+			
+			}
+			
+			if(cmd[2] == "set"){
+		
+				Entity.setHealth(e, parseInt(cmd[2]));
+		
+			}
+		
+		}
+		
+		if(cmd[1] == "@a"){
+		
+			for(var i = 0; i < ents.length; i++){
+			
+				var e = e[i];
+
+				if(cmd[2]=="add"){
+		
+					Entity.setHealth(e, Entity.getHealth(e) + parseInt(cmd[2]));
+			
+				}
+			
+				if(cmd[2] == "set"){
+		
+					Entity.setHealth(e, parseInt(cmd[2]));
+		
+				}
+			
+			}
 		
 		}
 
