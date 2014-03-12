@@ -607,7 +607,7 @@ function procCmd(command, cx, cy, cz) {
 		var msg = msgdat.toString()
 			.replace("@p", Player.getName(Player.getEntity()));
 
-        cmdMessage(msgdat.toString());
+        cmdMessage(msg);
 
         return true;
 
