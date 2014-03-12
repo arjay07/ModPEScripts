@@ -290,7 +290,8 @@ function getRandomEnt() {
 
 function newLevel() {
 
-    CB_FILE = new java.io.File(WORLDS + "/" + Level.getWorldDir() + "/CommandBlock", "command_blocks.txt");
+    var CB_DIR = new java.io.File(WORLDS + "/" + Level.getWorldDir(), "CommandBlock");
+	CB_FILE = new java.io.File(CB_DIR, "commandblocks.txt");
 
     if(!init) {
 
@@ -306,9 +307,14 @@ ModPE.addCraftRecipe(264, 64, 0, [3, 0]);
 
 }*/
 
-    if(!CB_FILE.exists()) {
+	if(!CB_DIR.exists()){
+	
+		CB_DIR.mkdirs();
+	
+	}
 
-		CB_FILE.mkdirs();
+    if(!CB_FILE.exists()) {
+	
         CB_FILE.createNewFile();
 
     }
