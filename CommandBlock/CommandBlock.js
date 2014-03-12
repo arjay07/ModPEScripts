@@ -3,6 +3,7 @@ var LOOP_ID = 180; //Loop Block
 var START_ID = 181; //Start of World Block
 var COMP_ID = 182; //Comparator Block
 var init = false;
+var startloopers = false;
 var cb = [];
 var lb = [];
 var ents = [];
@@ -346,6 +347,8 @@ function newLevel() {
 	
 	fos.flush();
 	fos.close();
+	
+	startloopers = true;
 
 }
 
@@ -379,6 +382,7 @@ function leaveGame() {
 	fos.flush();
     fos.close();
     cb = [];
+	startloopers = false;
 
 }
 
@@ -799,7 +803,7 @@ function procCmd(command, cx, cy, cz) {
 			var rx = Math.max(Player.getX(), cx) - Math.min(Player.getX(), cx);
 			var ry = Math.max(Player.getY(), cy) - Math.min(Player.getY(), cy);
 			var rz = Math.max(Player.getZ(), cz) - Math.min(Player.getZ(), cz);
-			var name = Player.getName();
+			var name = Player.getName(Player.getEntity());
 
             for(var a = 0; a < param.length; a++) {
 
@@ -1206,18 +1210,6 @@ function procCmd(command, cx, cy, cz) {
 			
 			}
 			
-			/*if(method == "display"){
-			
-				var TOP = android.view.Gravity.TOP;
-				var BOTTOM = android.view.Gravity.BOTTOM;
-				var LEFT = android.view.Gravity.LEFT;
-				var RIGHT = android.view.Gravity.RIGHT;
-				var CENTER = android.view.Gravity.CENTER;
-				
-				displayText(eval(par[0]), );
-			
-			}*/
-			
 		}
 	
 	}
@@ -1257,7 +1249,7 @@ function modTick() {
 
         var c = cb[i];
 
-        if(nearLooper(c.getX(), c.getY(), c.getZ()) && !c.looping) {
+        if(nearLooper(c.getX(), c.getY(), c.getZ()) && !c.looping && startloopers) {
 
             c.setLooping(true);
 
