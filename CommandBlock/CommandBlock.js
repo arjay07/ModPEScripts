@@ -349,6 +349,32 @@ function newLevel() {
 	fos.close();
 	
 	startloopers = true;
+	
+	for(var i = 0; i < cb.length; i++) {
+
+        var c = cb[i];
+
+        if(nearLooper(c.getX(), c.getY(), c.getZ()) && !c.looping && startloopers) {
+
+            c.setLooping(true);
+
+        } else if(!nearLooper(c.getX(), c.getY(), c.getZ()) && c.looping){
+
+            c.setLooping(false);
+
+        }
+
+        if(c.looping) {
+
+            if(c.startCommand()) {
+
+                cmdTrue(c.getX(), c.getY(), c.getZ());
+
+            }
+
+        }
+
+    }
 
 }
 
