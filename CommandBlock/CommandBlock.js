@@ -1245,8 +1245,9 @@ function entityRemovedHook(ent) {
 
 }
 
-function nearLooper(c) {
+function nearLooper(cmdblock) {
 
+	var c = cmdblock;
 	var x = c.getX();
 	var y = c.getY();
 	var z = c.getZ();
