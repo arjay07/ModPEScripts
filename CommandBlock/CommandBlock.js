@@ -1245,7 +1245,11 @@ function entityRemovedHook(ent) {
 
 }
 
-function nearLooper(x, y, z) {
+function nearLooper(c) {
+
+	var x = c.getX();
+	var y = c.getY();
+	var z = c.getZ();
 
     if(Level.getTile(x + 1, y, z) == LOOP_ID) return true;
     if(Level.getTile(x - 1, y, z) == LOOP_ID) return true;
@@ -1263,7 +1267,7 @@ function modTick() {
 
         var c = cb[i];
 
-        if(nearLooper(c.getX(), c.getY(), c.getZ()) && !c.looping && startloopers) {
+        if(nearLooper(c) && !c.looping && startloopers) {
 
             c.setLooping(true);
 
