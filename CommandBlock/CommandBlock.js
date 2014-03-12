@@ -1245,9 +1245,9 @@ function entityRemovedHook(ent) {
 
 }
 
-function nearLooper(cmdblock) {
+function nearLooper(cx, cy, cz) {
 
-	var c = cmdblock;
+	var c = getCmdBlock(cx, cy, cz);
 	var x = c.getX();
 	var y = c.getY();
 	var z = c.getZ();
@@ -1268,7 +1268,7 @@ function modTick() {
 
         var c = cb[i];
 
-        if(nearLooper(c) && !c.looping && startloopers) {
+        if(nearLooper(c.getX(), c.getY(), c.getZ()) && !c.looping && startloopers) {
 
             c.setLooping(true);
 
