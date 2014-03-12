@@ -300,16 +300,9 @@ function newLevel() {
 
     }
 
-    //ModPE.setItem(264, "Test", "command_block");
-    /*if(ModPE.addCraftRecipe){
-
-ModPE.addCraftRecipe(264, 64, 0, [3, 0]);
-
-}*/
-
 	if(!CB_DIR.exists()){
 	
-		CB_DIR.mkdirs();
+		CB_DIR.mkdir();
 	
 	}
 
@@ -408,7 +401,7 @@ function cmdTrue(x, y, z) {
 
 function useItem(x, y, z, itemId, blockId, side) {
 
-    if(itemId == CMD_ID) {
+    if(itemId == CMD_ID && blockId != CMD_ID) {
 
 	//Thanks to Dzaima for this code
 		x += xs[side];
