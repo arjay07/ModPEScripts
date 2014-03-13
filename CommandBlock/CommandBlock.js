@@ -31,12 +31,22 @@ function initMod() {
     //Command Block
     Block.defineBlock(CMD_ID, "Command Block", ["command_block", 0], 1, false, 0);
     Block.setDestroyTime(CMD_ID, 0.3);
-    Block.setExplosionResistance(CMD_ID, 18, 000, 000);
+    Block.setExplosionResistance(CMD_ID, 18000000);
 
     Block.defineBlock(LOOP_ID, "Loop Block", ["enchanting_table_top", 0], 1, false, 0);
     Block.setDestroyTime(LOOP_ID, 0.3);
     Block.setShape(LOOP_ID, 0, 0, 0, 1, 1, 1);
-    Block.setExplosionResistance(LOOP_ID, 18, 000, 000);
+    Block.setExplosionResistance(LOOP_ID, 18000000);
+	
+	Block.defineBlock(START_ID, "StartWorld Block", ["reactor_core_stage_x", 1], 1, false, 0);
+    Block.setDestroyTime(START_ID, 0.3);
+    Block.setShape(START_ID, 0, 0, 0, 1, 1, 1);
+    Block.setExplosionResistance(START_ID, 18000000);
+	
+	Block.defineBlock(COMP_ID, "Comparator Block", ["reactor_core_stage_x", 1], 1, false, 0);
+    Block.setDestroyTime(COMP_ID, 0.3);
+    Block.setShape(COMP_ID, 0, 0, 0, 1, 1, 1);
+    Block.setExplosionResistance(COMP_ID, 18000000);
 
 }
 
@@ -324,6 +334,16 @@ function newLevel() {
             }
 
         }
+		
+		if(nearStarter(c.getX(), c.getY(), c.getZ())){
+		
+			if(c.startCommand()) {
+
+                cmdTrue(c.getX(), c.getY(), c.getZ());
+
+            }
+		
+		}
 
     }
 
@@ -1293,6 +1313,23 @@ function nearLooper(cx, cy, cz) {
     if(Level.getTile(x, y, z - 1) == LOOP_ID) return true;
     if(Level.getTile(x, y + 1, z) == LOOP_ID) return true;
     if(Level.getTile(x, y - 1, z) == LOOP_ID) return true;
+    else return false;
+
+}
+
+function nearStarter(cx, cy, cz) {
+
+	var c = getCmdBlock(cx, cy, cz);
+	var x = c.getX();
+	var y = c.getY();
+	var z = c.getZ();
+
+    if(Level.getTile(x + 1, y, z) == START_ID) return true;
+    if(Level.getTile(x - 1, y, z) == START_ID) return true;
+    if(Level.getTile(x, y, z + 1) == START_ID) return true;
+    if(Level.getTile(x, y, z - 1) == START_ID) return true;
+    if(Level.getTile(x, y + 1, z) == START_ID) return true;
+    if(Level.getTile(x, y - 1, z) == START_ID) return true;
     else return false;
 
 }
