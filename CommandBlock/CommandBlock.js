@@ -324,16 +324,6 @@ function newLevel() {
             c.setLooping(false);
 
         }
-
-        if(c.looping) {
-
-            if(c.startCommand()) {
-
-                cmdTrue(c.getX(), c.getY(), c.getZ());
-
-            }
-
-        }
 		
 		if(nearStarter(c.getX(), c.getY(), c.getZ())){
 		
@@ -344,6 +334,16 @@ function newLevel() {
             }
 		
 		}
+
+        if(c.looping) {
+
+            if(c.startCommand()) {
+
+                cmdTrue(c.getX(), c.getY(), c.getZ());
+
+            }
+
+        }
 
     }
 
