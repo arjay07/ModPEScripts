@@ -124,6 +124,12 @@ function loopBlock(x, y, z){
 		this.time = i;
 	
 	}
+	
+	this.getTime = function(){
+	
+		return this.time;
+	
+	}
 
 }
 
@@ -1065,19 +1071,21 @@ function procCmd(command, cx, cy, cz) {
 
 				if(cmd[2]=="add"){
 		
-					Entity.setHealth(e, Entity.getHealth(e) + parseInt(cmd[2]));
+					Entity.setHealth(e, Entity.getHealth(e) + parseInt(cmd[3]));
 			
 				}
 			
 				if(cmd[2] == "set"){
 		
-					Entity.setHealth(e, parseInt(cmd[2]));
+					Entity.setHealth(e, parseInt(cmd[3]));
 		
 				}
 			
 			}
 		
 		}
+		
+		return true;
 
     }
 	
@@ -1087,7 +1095,7 @@ function procCmd(command, cx, cy, cz) {
 	
 		if(cmd[1] == "@p"){
 		
-			Entity.setVelY(Player.getEntity(), parseInt(cmd[2]));
+			Entity.setVelY(Player.getEntity(), parseFloat(cmd[2]));
 		
 		}
 		
@@ -1095,7 +1103,7 @@ function procCmd(command, cx, cy, cz) {
 		
 			for(var i = 0; i < ents.length; i++){
 			
-				Entity.setVelY(ents[i], parseInt(cmd[2]));
+				Entity.setVelY(ents[i], parseFloat(cmd[2]));
 			
 			}
 		
@@ -1103,9 +1111,11 @@ function procCmd(command, cx, cy, cz) {
 		
 		if(cmd[1] == "@r"){
 		
-			Entity.setVelY(getRandomEnt(), parseInt(cmd[2]));
+			Entity.setVelY(getRandomEnt(), parseFloat(cmd[2]));
 		
 		}
+		
+		return true;
 	
 	}
 	
@@ -1113,7 +1123,7 @@ function procCmd(command, cx, cy, cz) {
 	
 		if(cmd[1] == "@p"){
 		
-			Entity.setVelX(Player.getEntity(), parseInt(cmd[2]));
+			Entity.setVelX(Player.getEntity(), parseFloat(cmd[2]));
 		
 		}
 		
@@ -1121,7 +1131,7 @@ function procCmd(command, cx, cy, cz) {
 		
 			for(var i = 0; i < ents.length; i++){
 			
-				Entity.setVelX(ents[i], parseInt(cmd[2]));
+				Entity.setVelX(ents[i], parseFloat(cmd[2]));
 			
 			}
 		
@@ -1129,9 +1139,11 @@ function procCmd(command, cx, cy, cz) {
 		
 		if(cmd[1] == "@r"){
 		
-			Entity.setVelX(getRandomEnt(), parseInt(cmd[2]));
+			Entity.setVelX(getRandomEnt(), parseFloat(cmd[2]));
 		
 		}
+		
+		return true;
 	
 	}
 	
@@ -1139,7 +1151,7 @@ function procCmd(command, cx, cy, cz) {
 	
 		if(cmd[1] == "@p"){
 		
-			Entity.setVelZ(Player.getEntity(), parseInt(cmd[2]));
+			Entity.setVelZ(Player.getEntity(), parseFloat(cmd[2]));
 		
 		}
 		
@@ -1147,7 +1159,7 @@ function procCmd(command, cx, cy, cz) {
 		
 			for(var i = 0; i < ents.length; i++){
 			
-				Entity.setVelZ(ents[i], parseInt(cmd[2]));
+				Entity.setVelZ(ents[i], parseFloat(cmd[2]));
 			
 			}
 		
@@ -1155,24 +1167,45 @@ function procCmd(command, cx, cy, cz) {
 		
 		if(cmd[1] == "@r"){
 		
-			Entity.setVelZ(getRandomEnt(), parseInt(cmd[2]));
+			Entity.setVelZ(getRandomEnt(), parseFloat(cmd[2]));
 		
 		}
+		
+		return true;
 	
 	}
 	
 	if(cmd[0] == "/eval"){
-	
-		var code = new java.lang.StringBuilder();
-
-        for(var i = 1; i < cmd.length; i++) {
-
-            code.append(cmd[i]);
-            code.append(" ");
-
-        }
 		
-		eval(code.toString());
+		var code = command.replace("/eval ", "");
+		
+		try{
+		
+			eval(code);
+		
+		}catch(e){
+		
+			pnMessage(e);
+		
+		}
+		
+		return true;
+	
+	}
+	
+	if(cmd[0] == "/evaluate"){
+	
+		var code = command.replace("/evaluate ", "");
+		
+		try{
+		
+			eval(code);
+		
+		}catch(e){
+		
+			pnMessage(e);
+		
+		}
 	
 	}
 	
@@ -1225,6 +1258,8 @@ function procCmd(command, cx, cy, cz) {
 			}
 			
 		}
+		
+		return true;
 	
 	}
 }
