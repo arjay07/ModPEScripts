@@ -423,6 +423,27 @@ function useItem(x, y, z, itemId, blockId, side) {
         }
 
     }
+    
+    if(itemId == LOOP_ID){
+    	
+    	x += xs[side];
+		y += ys[side];
+		z += zs[side];
+		
+		var loopb = new loopBlock(x, y, z);
+    	
+    	if(lb.index(loopb == -1)){
+    		
+    		lb.push(loopb);
+    		
+    	} else {
+    		
+    		lb.splice(lb.indexOf(loopb));
+    		lb.push(loopb);
+    		
+    	}
+    	
+    }
 
     if(blockId == CMD_ID && itemId != 280 && itemId != 331) {
 
