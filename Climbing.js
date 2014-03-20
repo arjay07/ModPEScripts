@@ -7,7 +7,7 @@ function modTick(){
 	var blocks=1;
 	var x=Player.getX();
 	var z=Player.getZ();
-	var yaw=Entiy.getYaw(Player.getEntity());
+	var yaw=Entity.getYaw(Player.getEntity());
 	var deltaX=Math.sin(yaw)*blocks;
 	var deltaZ=Math.cos(yaw)*blocks;
 	var block=getTile(Math.round(x+deltaX),Math.round(Player.getY()),Math.round(z+deltaZ));
