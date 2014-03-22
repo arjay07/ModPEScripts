@@ -22,8 +22,6 @@ function modTick(){
 
 	if(!finished){
 	
-		for(var i = 0; i <= speed; i++){
-	
 			if(posy <= 4){
 	
 				Level.setTile(posx, posy, posz, 3);
@@ -50,9 +48,6 @@ function modTick(){
 				posy = 1;
 			
 			}
-	
-		}
-	
 	}
 	
 	if(finished && !messagesent){
