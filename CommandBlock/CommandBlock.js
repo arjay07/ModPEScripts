@@ -26,6 +26,9 @@ var xs = new Array(0,0,0,0,-1,1);
 var ys = new Array(-1,1,0,0,0,0);
 var zs = new Array(0,0,-1,1,0,0);
 
+//Timer
+var timer = 100;
+
 function initMod() {
 
     //Command Block
@@ -1357,7 +1360,11 @@ function nearStarter(cx, cy, cz) {
 
 function modTick() {
 
-    for(var i = 0; i < cb.length; i++) {
+	timer--;
+
+	if(timer == 0){
+	
+	    for(var i = 0; i < cb.length; i++) {
 
         var c = cb[i];
 
@@ -1382,5 +1389,8 @@ function modTick() {
         }
 
     }
+	
+	}
+	
 
 }
