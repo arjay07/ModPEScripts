@@ -1362,7 +1362,7 @@ function modTick() {
 
 	timer--;
 
-	if(timer == 0){
+	if(timer <= 0){
 	
 	    for(var i = 0; i < cb.length; i++) {
 
