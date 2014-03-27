@@ -435,7 +435,7 @@ function useItem(x, y, z, itemId, blockId, side) {
 		
 		var loopb = new loopBlock(x, y, z);
     	
-    	if(lb.index(loopb == -1)){
+    	if(lb.indexOf(loopb) == -1){
     		
     		lb.push(loopb);
     		
