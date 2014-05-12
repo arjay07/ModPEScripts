@@ -169,7 +169,7 @@ function cmdMessage(message) {
 
 function pnMessage(message) {
 
-    clientMessage(ChatColor.GRAY + "[@]" + message);
+    clientMessage(ChatColor.GRAY + "[@:" + message + "]");
 
 }
 
@@ -1077,13 +1077,13 @@ function procCmd(command, cx, cy, cz) {
 
 			if(cmd[2]=="add"){
 		
-				Player.setHealth(Entity.getHealth(Player.getEntity()) + parseInt(cmd[2]));
+				Player.setHealth(Entity.getHealth(Player.getEntity()) + parseInt(cmd[3]));
 			
 			}
 			
 			if(cmd[2] == "set"){
 		
-				Player.setHealth(parseInt(cmd[2]));
+				Player.setHealth(parseInt(cmd[3]));
 		
 			}
 		
@@ -1095,13 +1095,13 @@ function procCmd(command, cx, cy, cz) {
 
 			if(cmd[2]=="add"){
 		
-				Entity.setHealth(e, Entity.getHealth(e) + parseInt(cmd[2]));
+				Entity.setHealth(e, Entity.getHealth(e) + parseInt(cmd[3]));
 			
 			}
 			
 			if(cmd[2] == "set"){
 		
-				Entity.setHealth(e, parseInt(cmd[2]));
+				Entity.setHealth(e, parseInt(cmd[3]));
 		
 			}
 		
@@ -1251,6 +1251,43 @@ function procCmd(command, cx, cy, cz) {
 		
 		}
 	
+	}
+	
+	if(cmd[0] == "/display"){
+		
+		var msgdat = new java.lang.StringBuilder();
+
+        	for(var i = 1; i < cmd.length; i++) {
+
+            		msgdat.append(cmd[i]);
+            		msgdat.append(" ");
+
+        	}
+		
+		var msg = msgdat.toString()
+			.replace("@p", Player.getName(Player.getEntity()));
+		
+		ModPE.showTipMessage(msg);
+		
+	}
+	
+	if(cmd[0] == "/toast"){
+		
+		var msgdat = new java.lang.StringBuilder();
+
+        	for(var i = 1; i < cmd.length; i++) {
+
+            		msgdat.append(cmd[i]);
+            		msgdat.append(" ");
+
+        	}
+		
+		var msg = msgdat.toString()
+			.replace("@p", Player.getName(Player.getEntity()));
+			
+		print(msg);
+		
+		
 	}
 	
 	//Method system
