@@ -1395,6 +1395,23 @@ function nearStarter(cx, cy, cz) {
 
 }
 
+function nearComparator(cx, cy, cz){
+	
+	var c = getCmdBlock(cx, cy, cz);
+	var x = c.getX();
+	var y = c.getY();
+	var z = c.getZ();
+
+    if(Level.getTile(x + 1, y, z) == COMP_ID) return true;
+    if(Level.getTile(x - 1, y, z) == COMP_ID) return true;
+    if(Level.getTile(x, y, z + 1) == COMP_ID) return true;
+    if(Level.getTile(x, y, z - 1) == COMP_ID) return true;
+    if(Level.getTile(x, y + 1, z) == COMP_ID) return true;
+    if(Level.getTile(x, y - 1, z) == COMP_ID) return true;
+    else return false;
+	
+}
+
 function modTick() {
 
 	timer--;
@@ -1424,6 +1441,12 @@ function modTick() {
             }
 
         }
+       
+       if(nearComparator(c.getX(), c.getY(), c.getZ()) && !c.startCommand()){
+       	
+       		cmdTrue(c.getX(), c.getY(), c.getZ());
+       	
+       }
 
     }
 	
