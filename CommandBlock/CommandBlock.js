@@ -815,7 +815,6 @@ function procCmd(command, cx, cy, cz) {
             var p = [];
 			
 			//Player arguments
-			var i = Player.getCarriedItem();
 			var h = Entity.getHealth(Player.getEntity());
 			var x = Math.round(Player.getX());
 			var y = Math.round(Player.getY());
@@ -824,10 +823,14 @@ function procCmd(command, cx, cy, cz) {
 			var i = Player.getCarriedItem();
 			var ic = Player.getCarriedItemCount();
 			var id = Player.getCarriedItemData();
+			var inm = Item.getName(i);
 			var rx = Math.max(Player.getX(), cx) - Math.min(Player.getX(), cx);
 			var ry = Math.max(Player.getY(), cy) - Math.min(Player.getY(), cy);
 			var rz = Math.max(Player.getZ(), cz) - Math.min(Player.getZ(), cz);
 			var name = Player.getName(Player.getEntity());
+			var velx = Entity.getVelX(Player.getEntity());
+			var vely = Entity.getVelY(Player.getEntity());
+			var velz = Entity.getVelZ(Player.getEntity());
 
             for(var a = 0; a < param.length; a++) {
 
@@ -913,7 +916,7 @@ function procCmd(command, cx, cy, cz) {
 		
 		if(cmd[1].startsWith("@r")){
 		
-			var e = getRandoment();
+			var e = getRandomEnt();
 						
 			var params = cmd[1].substring(cmd[1].indexOf("[") + 1, cmd[1].indexOf("]"));
             var param = params.split(",");
