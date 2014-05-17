@@ -1,4 +1,4 @@
-/*SuperGamer 6.0*/
+/*SuperGamer 7.0*/
 /*Copyright Arjay07 2014*/
 
 var mainGUI;
@@ -56,6 +56,9 @@ function mainMenu(){
 
 				});
 
+				mainGUI = new android.widget.PopupWindow(sgBtn, android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+				mainGUI.showAtLocation(ctx.getWindow().getDecorView(), android.view.Gravity.BOTTOM | android.view.Gravity.RIGHT, 0, 0);
+
 			}catch(e){
 
 
@@ -65,5 +68,11 @@ function mainMenu(){
 		}
 
 	});
+
+}
+
+function newLevel(){
+
+	mainMenu();
 
 }
