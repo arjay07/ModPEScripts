@@ -48,7 +48,7 @@ function fillBelow(x, y, z, h, id, data){
 
 }
 
-function createMaterialStructure(x, y, z, m, mdat){
+function createMaterialStructure(x, y, z, h, w, d, m, mdat){
 
 	var cubeX = [x, x+1, x+2];
 	var cubeY = [y, y+1, y+2];
