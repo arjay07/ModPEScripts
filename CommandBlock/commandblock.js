@@ -18,6 +18,13 @@ function init(){
     Block.setDestroyTime(commandblock, 0.3);
     Block.setExplosionResistance(commandblock, 18000000);
 
+    Player.addItemCreativeInv(500, ItemCategory.MATERIAL, 0);
+
+}
+
+function newLevel(){
+
+
 }
 
 function redstoneUpdateHook(x, y, z, newCurrent, idk, blockId, blockData){
