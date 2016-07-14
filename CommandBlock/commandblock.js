@@ -12,6 +12,8 @@ var commandblock = 137;
 
 function init(){
 
+	clientMessage("Command Block Mod");
+
 	//Command Block
     Block.defineBlock(commandblock, "Command Block", ["command_block", 0], 1, false, 0);
     Block.setRedstoneConsumer(commandblock, true);
