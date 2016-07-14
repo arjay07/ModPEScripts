@@ -20,7 +20,7 @@ function init(){
     Block.setDestroyTime(commandblock, 0.3);
     Block.setExplosionResistance(commandblock, 18000000);
 
-    Player.addItemCreativeInv(500, 1, 0);
+    Player.addItemCreativeInv(commandblock, 1, 0);
 
 }
 
